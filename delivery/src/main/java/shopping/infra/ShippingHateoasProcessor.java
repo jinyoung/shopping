@@ -17,6 +17,11 @@ public class ShippingHateoasProcessor
                 .of(model.getRequiredLink("self").getHref() + "/canceldelivery")
                 .withRel("canceldelivery")
         );
+        model.add(
+            Link
+                .of(model.getRequiredLink("self").getHref() + "/trackdelivery")
+                .withRel("trackdelivery")
+        );
 
         return model;
     }

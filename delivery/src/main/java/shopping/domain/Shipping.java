@@ -19,6 +19,8 @@ public class Shipping {
 
     private Long orderId;
 
+    private String test;
+
     @PostPersist
     public void onPostPersist() {}
 
@@ -33,6 +35,8 @@ public class Shipping {
 
         System.out.println("test");
     }
+
+    public void trackDelivery() {}
 
     public static void startDelivery(OrderPlaced orderPlaced) {
         /** Example 1:  new item     */
