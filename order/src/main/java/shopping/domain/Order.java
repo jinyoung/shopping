@@ -34,4 +34,9 @@ public class Order {
         );
         return orderRepository;
     }
+
+    public void cancel() {
+        OrderCancelled orderCancelled = new OrderCancelled(this);
+        orderCancelled.publishAfterCommit();
+    }
 }
