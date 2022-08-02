@@ -12,6 +12,12 @@ public class ShippingHateoasProcessor
 
     @Override
     public EntityModel<Shipping> process(EntityModel<Shipping> model) {
+        model.add(
+            Link
+                .of(model.getRequiredLink("self").getHref() + "/canceldelivery")
+                .withRel("canceldelivery")
+        );
+
         return model;
     }
 }
