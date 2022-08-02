@@ -22,6 +22,8 @@ public class Order {
 
     @PostPersist
     public void onPostPersist() {
+        if(true) return;
+
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();
     }
