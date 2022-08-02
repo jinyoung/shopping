@@ -15,13 +15,10 @@
                             <v-list-item-title>
                             </v-list-item-title>
                             <v-list-item-subtitle>
-                                ProductId :  {{item.productId }}
-                            </v-list-item-subtitle>
-                            <v-list-item-subtitle>
-                                Qty :  {{item.qty }}
-                            </v-list-item-subtitle>
-                            <v-list-item-subtitle>
                                 Address :  {{item.address }}
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle>
+                                OrderId :  {{item.orderId }}
                             </v-list-item-subtitle>
                         </v-list-item-content>
 
@@ -40,7 +37,7 @@
     const axios = require('axios').default;
 
     export default {
-        name: 'OrderPicker',
+        name: 'ShippingPicker',
         props: {
             value: [String, Object, Array, Number, Boolean],
         },
@@ -50,14 +47,14 @@
         }),
         async created() {
             var me = this;
-            var temp = await axios.get(axios.fixUrl('/orders'))
+            var temp = await axios.get(axios.fixUrl('/shippings'))
             if(temp.data) {
-                me.list = temp.data._embedded.orders;
+                me.list = temp.data._embedded.shippings;
             }
 
             if(me.value && typeof me.value == "object" && Object.values(me.value)[0]) {
                 var id = Object.values(me.value)[0];
-                var tmpValue = await axios.get(axios.fixUrl('/orders/' + id))
+                var tmpValue = await axios.get(axios.fixUrl('/shippings/' + id))
                 if(tmpValue.data) {
                     var val = tmpValue.data
                     me.list.forEach(function(item, idx) {
@@ -74,8 +71,6 @@
                 if(val != undefined) {
                     var arr = this.list[val]._links.self.href.split('/');
                     obj['id'] = arr[4]; 
-                    
-                    
                     
                     
                     

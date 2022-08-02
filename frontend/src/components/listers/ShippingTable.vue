@@ -31,7 +31,7 @@
                         </v-fab-transition>
                     </template>
 
-                    <Order :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
+                    <Shipping :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
                 
                     <v-btn
                             style="postition:absolute; top:2%; right:2%"
@@ -50,12 +50,12 @@
 
 <script>
     const axios = require('axios').default;
-    import Order from './../Order.vue';
+    import Shipping from './../Shipping.vue';
 
     export default {
-        name: 'OrderManager',
+        name: 'ShippingManager',
         components: {
-            Order,
+            Shipping,
         },
         props: {
             offline: Boolean,
@@ -67,11 +67,10 @@
             headers: 
                 [
                     { text: "id", value: "id" },
-                    { text: "productId", value: "productId" },
-                    { text: "qty", value: "qty" },
                     { text: "address", value: "address" },
+                    { text: "orderId", value: "orderId" },
                 ],
-            order : [],
+            shipping : [],
             newValue: {},
             tick : true,
             openDialog : false,
@@ -82,14 +81,13 @@
                 return;
             }
 
-            var temp = await axios.get(axios.fixUrl('/orders'))
-            temp.data._embedded.orders.map(obj => obj.id=obj._links.self.href.split("/")[obj._links.self.href.split("/").length - 1])
-            this.values = temp.data._embedded.orders;
+            var temp = await axios.get(axios.fixUrl('/shippings'))
+            temp.data._embedded.shippings.map(obj => obj.id=obj._links.self.href.split("/")[obj._links.self.href.split("/").length - 1])
+            this.values = temp.data._embedded.shippings;
 
             this.newValue = {
-                'productId': '',
-                'qty': 0,
                 'address': '',
+                'orderId': 0,
             }
         },
         methods: {

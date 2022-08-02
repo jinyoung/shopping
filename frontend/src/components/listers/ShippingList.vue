@@ -1,11 +1,31 @@
 <template>
     <div>
-        <v-data-table
-                :headers="headers"
-                :items="values"
-                :items-per-page="5"
-                class="elevation-1"
-        ></v-data-table>
+        <v-list two-line>
+            <template>
+                <v-list-item v-for="(data, n) in values" :key="n">
+                    <v-list-item-avatar color="grey darken-1">
+                        <v-img :src="data.photo ? data.photo:'https://cdn.vuetifyjs.com/images/cards/cooking.png'"/>
+                    </v-list-item-avatar>
+
+                    <v-list-item-content>
+                        <v-list-item-title style="margin-bottom:10px;">
+                            
+                            
+                            
+                        </v-list-item-title>
+
+                        <v-list-item-subtitle style="font-size:25px; font-weight:700;">
+                            [ Id :  {{data.id }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            [ Address :  {{data.address }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            [ OrderId :  {{data.orderId }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </v-list-item-subtitle>
+
+                    </v-list-item-content>
+                </v-list-item>
+
+                <v-divider v-if="n !== 6" :key="`divider-${n}`" inset></v-divider>
+            </template>
+        </v-list>
 
         <v-col style="margin-bottom:40px;">
             <div class="text-center">
@@ -31,7 +51,7 @@
                         </v-fab-transition>
                     </template>
 
-                    <Order :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
+                    <Shipping :offline="offline" class="video-card" :isNew="true" :editMode="true" v-model="newValue" @add="append" v-if="tick"/>
                 
                     <v-btn
                             style="postition:absolute; top:2%; right:2%"
@@ -50,12 +70,12 @@
 
 <script>
     const axios = require('axios').default;
-    import Order from './../Order.vue';
+    import Shipping from './../Shipping.vue';
 
     export default {
-        name: 'OrderManager',
+        name: 'ShippingManager',
         components: {
-            Order,
+            Shipping,
         },
         props: {
             offline: Boolean,
@@ -64,14 +84,6 @@
         },
         data: () => ({
             values: [],
-            headers: 
-                [
-                    { text: "id", value: "id" },
-                    { text: "productId", value: "productId" },
-                    { text: "qty", value: "qty" },
-                    { text: "address", value: "address" },
-                ],
-            order : [],
             newValue: {},
             tick : true,
             openDialog : false,
@@ -80,16 +92,15 @@
             if(this.offline){
                 if(!this.values) this.values = [];
                 return;
-            }
+            } 
 
-            var temp = await axios.get(axios.fixUrl('/orders'))
-            temp.data._embedded.orders.map(obj => obj.id=obj._links.self.href.split("/")[obj._links.self.href.split("/").length - 1])
-            this.values = temp.data._embedded.orders;
-
+            var temp = await axios.get(axios.fixUrl('/shippings'))
+            temp.data._embedded.shippings.map(obj => obj.id=obj._links.self.href.split("/")[obj._links.self.href.split("/").length - 1])
+            this.values = temp.data._embedded.shippings;
+            
             this.newValue = {
-                'productId': '',
-                'qty': 0,
                 'address': '',
+                'orderId': 0,
             }
         },
         methods: {
@@ -106,8 +117,18 @@
                 this.$nextTick(function(){
                     this.tick=true
                 })
-            },
-        }
-    }
+            }
+        },
+    };
 </script>
+
+
+<style>
+    .video-card {
+        width:300px; 
+        margin-left:4.5%; 
+        margin-top:50px; 
+        margin-bottom:50px;
+    }
+</style>
 

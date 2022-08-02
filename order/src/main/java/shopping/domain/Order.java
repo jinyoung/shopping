@@ -20,6 +20,8 @@ public class Order {
 
     private Integer qty;
 
+    private String address;
+
     @PostPersist
     public void onPostPersist() {
         if(true) return;

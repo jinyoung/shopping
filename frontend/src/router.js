@@ -8,6 +8,9 @@ Vue.use(Router);
 import OrderManager from "./components/listers/OrderCards"
 import OrderDetail from "./components/listers/OrderDetail"
 
+import ShippingManager from "./components/listers/ShippingCards"
+import ShippingDetail from "./components/listers/ShippingDetail"
+
 
 export default new Router({
     // mode: 'history',
@@ -22,6 +25,17 @@ export default new Router({
                 path: '/orders/:id',
                 name: 'OrderDetail',
                 component: OrderDetail
+            },
+
+            {
+                path: '/shippings',
+                name: 'ShippingManager',
+                component: ShippingManager
+            },
+            {
+                path: '/shippings/:id',
+                name: 'ShippingDetail',
+                component: ShippingDetail
             },
 
 
