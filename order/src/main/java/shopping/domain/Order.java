@@ -22,7 +22,8 @@ public class Order {
 
     private String address;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @PostPersist
     public void onPostPersist() {
