@@ -22,6 +22,8 @@ public class Order {
 
     private String address;
 
+    private String status;
+
     @PostPersist
     public void onPostPersist() {
         if(true) return;
