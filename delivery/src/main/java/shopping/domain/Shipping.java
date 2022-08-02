@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
 import shopping.DeliveryApplication;
+import shopping.domain.DeliveryStarted;
 
 @Entity
 @Table(name = "Shipping_table")
@@ -22,7 +23,10 @@ public class Shipping {
     private String test;
 
     @PostPersist
-    public void onPostPersist() {}
+    public void onPostPersist() {
+        DeliveryStarted deliveryStarted = new DeliveryStarted(this);
+        deliveryStarted.publishAfterCommit();
+    }
 
     public static ShippingRepository repository() {
         ShippingRepository shippingRepository = DeliveryApplication.applicationContext.getBean(
@@ -50,6 +54,9 @@ public class Shipping {
         repository().save(shipping);
 
     
+        DeliveryStarted deliveryStarted = new DeliveryStarted(shipping);
+        deliveryStarted.publishAfterCommit();
+        
 
         /** Example 2:  finding and process
         
@@ -58,6 +65,8 @@ public class Shipping {
             shipping // do something
             repository().save(shipping);
 
+            DeliveryStarted deliveryStarted = new DeliveryStarted(shipping);
+            deliveryStarted.publishAfterCommit();
 
          });
         */
