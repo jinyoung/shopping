@@ -19,12 +19,17 @@ public class Shipping {
 
     private Long orderId;
 
+    @PostPersist
+    public void onPostPersist() {}
+
     public static ShippingRepository repository() {
         ShippingRepository shippingRepository = DeliveryApplication.applicationContext.getBean(
             ShippingRepository.class
         );
         return shippingRepository;
     }
+
+    public void cancelDelivery() {}
 
     public static void startDelivery(OrderPlaced orderPlaced) {
         /** Example 1:  new item 

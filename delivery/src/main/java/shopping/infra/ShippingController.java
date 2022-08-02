@@ -17,5 +17,26 @@ public class ShippingController {
 
     @Autowired
     ShippingRepository shippingRepository;
+
+    @RequestMapping(
+        value = "shippings/{id}/canceldelivery",
+        method = RequestMethod.PUT,
+        produces = "application/json;charset=UTF-8"
+    )
+    public Shipping cancelDelivery(
+        @PathVariable(value = "id") Long id,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws Exception {
+        System.out.println("##### /shipping/cancelDelivery  called #####");
+        Optional<Shipping> optionalShipping = shippingRepository.findById(id);
+
+        optionalShipping.orElseThrow(() -> new Exception("No Entity Found"));
+        Shipping shipping = optionalShipping.get();
+        shipping.cancelDelivery();
+
+        shippingRepository.save(shipping);
+        return shipping;
+    }
     // keep
 }
