@@ -29,14 +29,21 @@ public class Shipping {
         return shippingRepository;
     }
 
-    public void cancelDelivery() {}
+    public void cancelDelivery() {
+
+        System.out.println("test");
+    }
 
     public static void startDelivery(OrderPlaced orderPlaced) {
-        /** Example 1:  new item 
+        /** Example 1:  new item     */
         Shipping shipping = new Shipping();
+        shipping.setOrderId(orderPlaced.getId());
+
+
+        
         repository().save(shipping);
 
-        */
+    
 
         /** Example 2:  finding and process
         
