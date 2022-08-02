@@ -38,5 +38,26 @@ public class ShippingController {
         shippingRepository.save(shipping);
         return shipping;
     }
+
+    @RequestMapping(
+        value = "shippings/{id}/trackdelivery",
+        method = RequestMethod.PUT,
+        produces = "application/json;charset=UTF-8"
+    )
+    public Shipping trackDelivery(
+        @PathVariable(value = "id") Long id,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws Exception {
+        System.out.println("##### /shipping/trackDelivery  called #####");
+        Optional<Shipping> optionalShipping = shippingRepository.findById(id);
+
+        optionalShipping.orElseThrow(() -> new Exception("No Entity Found"));
+        Shipping shipping = optionalShipping.get();
+        shipping.trackDelivery();
+
+        shippingRepository.save(shipping);
+        return shipping;
+    }
     // keep
 }
