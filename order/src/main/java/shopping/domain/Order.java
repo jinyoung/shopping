@@ -41,6 +41,8 @@ public class Order {
 
     public void cancel() {
 //// my cancel impl is added test
+        if(getQty() > 10) throw new 
+        setStatus("CANCELLED");
 
         OrderCancelled orderCancelled = new OrderCancelled(this);
         orderCancelled.publishAfterCommit();
