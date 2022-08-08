@@ -17,12 +17,6 @@
                             <v-list-item-subtitle>
                                 Address :  {{item.address }}
                             </v-list-item-subtitle>
-                            <v-list-item-subtitle>
-                                OrderId :  {{item.orderId }}
-                            </v-list-item-subtitle>
-                            <v-list-item-subtitle>
-                                Test :  {{item.test }}
-                            </v-list-item-subtitle>
                         </v-list-item-content>
 
                         <v-list-item-action>
@@ -40,7 +34,7 @@
     const axios = require('axios').default;
 
     export default {
-        name: 'ShippingPicker',
+        name: 'DeliveryPicker',
         props: {
             value: [String, Object, Array, Number, Boolean],
         },
@@ -50,14 +44,14 @@
         }),
         async created() {
             var me = this;
-            var temp = await axios.get(axios.fixUrl('/shippings'))
+            var temp = await axios.get(axios.fixUrl('/deliveries'))
             if(temp.data) {
-                me.list = temp.data._embedded.shippings;
+                me.list = temp.data._embedded.deliveries;
             }
 
             if(me.value && typeof me.value == "object" && Object.values(me.value)[0]) {
                 var id = Object.values(me.value)[0];
-                var tmpValue = await axios.get(axios.fixUrl('/shippings/' + id))
+                var tmpValue = await axios.get(axios.fixUrl('/deliveries/' + id))
                 if(tmpValue.data) {
                     var val = tmpValue.data
                     me.list.forEach(function(item, idx) {
@@ -74,10 +68,6 @@
                 if(val != undefined) {
                     var arr = this.list[val]._links.self.href.split('/');
                     obj['id'] = arr[4]; 
-                    
-                    
-                    
-                    
                     
                     
                     

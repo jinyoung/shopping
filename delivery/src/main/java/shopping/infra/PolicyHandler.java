@@ -17,10 +17,13 @@ import shopping.domain.*;
 public class PolicyHandler {
 
     @Autowired
-    ShippingRepository shippingRepository;
+    DeliveryRepository deliveryRepository;
 
     @StreamListener(KafkaProcessor.INPUT)
     public void whatever(@Payload String eventString) {}
+
+    @Autowired
+    shopping.external.OrderService orderService;
 
     @StreamListener(
         value = KafkaProcessor.INPUT,
@@ -34,8 +37,12 @@ public class PolicyHandler {
             "\n\n##### listener StartDelivery : " + orderPlaced + "\n\n"
         );
 
+        // REST Request Sample
+
+        // orderService.getOrder(/** mapping value needed */);
+
         // Sample Logic //
-        Shipping.startDelivery(event);
+        Delivery.startDelivery(event);
     }
     // keep
 

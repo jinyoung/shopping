@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import shopping.domain.*;
 
 @RestController
-// @RequestMapping(value="/orders")
+// @RequestMapping(value="/deliveries")
 @Transactional
-public class OrderController {
+public class DeliveryController {
 
     @Autowired
-    OrderRepository orderRepository;
+    DeliveryRepository deliveryRepository;
     // keep
 }

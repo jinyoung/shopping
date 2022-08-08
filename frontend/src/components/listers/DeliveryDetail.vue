@@ -1,18 +1,12 @@
 <template>
     <v-card outlined>
         <v-card-title>
-            Shipping # {{item._links.self.href.split("/")[item._links.self.href.split("/").length - 1]}}
+            Delivery # {{item._links.self.href.split("/")[item._links.self.href.split("/").length - 1]}}
         </v-card-title>
 
         <v-card-text>
             <div>
                 <String label="Address" v-model="item.address" :editMode="editMode" @change="change" />
-            </div>
-            <div>
-                <Number label="OrderId" v-model="item.orderId" :editMode="editMode" @change="change" />
-            </div>
-            <div>
-                <String label="Test" v-model="item.test" :editMode="editMode" @change="change" />
             </div>
         </v-card-text>
 
@@ -60,7 +54,7 @@
     const axios = require('axios').default;
 
     export default {
-        name: 'ShippingDetail',
+        name: 'DeliveryDetail',
         components:{},
         props: {
         },
@@ -71,7 +65,7 @@
         async created() {
             var me = this;
             var params = this.$route.params;
-            var temp = await axios.get(axios.fixUrl('/shippings/' + params.id))
+            var temp = await axios.get(axios.fixUrl('/deliveries/' + params.id))
             if(temp.data) {
                 me.item = temp.data
             }

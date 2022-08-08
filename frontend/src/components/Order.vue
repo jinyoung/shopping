@@ -19,8 +19,6 @@
         <v-card-text>
             <String label="ProductId" v-model="value.productId" :editMode="editMode"/>
             <Number label="Qty" v-model="value.qty" :editMode="editMode"/>
-            <String label="Address" v-model="value.address" :editMode="editMode"/>
-            <Status offline label="Status" v-model="value.status" :editMode="editMode" @change="change"/>
         </v-card-text>
 
         <v-card-actions>
@@ -60,14 +58,6 @@
         </v-card-actions>
         <v-card-actions>
             <v-spacer></v-spacer>                        
-            <v-btn
-                    v-if="!editMode"
-                    color="deep-purple lighten-2"
-                    text
-                    @click="cancel"
-            >
-                Cancel
-            </v-btn>
         </v-card-actions>
 
         <v-snackbar
@@ -167,7 +157,11 @@
 
                 } catch(e) {
                     this.snackbar.status = true
-                    this.snackbar.text = e
+                    if(e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
                 }
                 
             },
@@ -185,26 +179,15 @@
 
                 } catch(e) {
                     this.snackbar.status = true
-                    this.snackbar.text = e
+                    if(e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
                 }
             },
             change(){
                 this.$emit('input', this.value);
-            },
-            async cancel() {
-                try {
-                    if(!this.offline) {
-                        var temp = await axios.put(axios.fixUrl(this.value._links.cancel.href))
-                        for(var k in temp.data) {
-                            this.value[k]=temp.data[k];
-                        }
-                    }
-
-                    this.editMode = false;
-                } catch(e) {
-                    this.snackbar.status = true
-                    this.snackbar.text = e
-                }
             },
         },
     }

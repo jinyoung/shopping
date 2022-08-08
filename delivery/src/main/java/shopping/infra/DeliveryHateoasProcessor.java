@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import shopping.domain.*;
 
 @Component
-public class OrderHateoasProcessor
-    implements RepresentationModelProcessor<EntityModel<Order>> {
+public class DeliveryHateoasProcessor
+    implements RepresentationModelProcessor<EntityModel<Delivery>> {
 
     @Override
-    public EntityModel<Order> process(EntityModel<Order> model) {
+    public EntityModel<Delivery> process(EntityModel<Delivery> model) {
         return model;
     }
 }

@@ -11,7 +11,7 @@ public class DeliveryStarted extends AbstractEvent {
 
     private Long id;
 
-    public DeliveryStarted(Shipping aggregate) {
+    public DeliveryStarted(Delivery aggregate) {
         super(aggregate);
     }
 

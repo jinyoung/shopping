@@ -1,5 +1,12 @@
 server:
   port: 8080
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 500
 
 ---
 
@@ -37,6 +44,9 @@ logging:
     org.hibernate.type: trace
     org.springframework.cloud: debug
 
+api:
+  url:
+    order: localhost:8081
 
 server:
   port: 8082
@@ -67,4 +77,7 @@ spring:
           destination: shopping
           contentType: application/json
 
+api:
+  url:
+    order: order:8080
 

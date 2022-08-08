@@ -20,11 +20,6 @@ public class Order {
 
     private Integer qty;
 
-    private String address;
-
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
     @PostPersist
     public void onPostPersist() {
         OrderPlaced orderPlaced = new OrderPlaced(this);
@@ -36,10 +31,5 @@ public class Order {
             OrderRepository.class
         );
         return orderRepository;
-    }
-
-    public void cancel() {
-        OrderCancelled orderCancelled = new OrderCancelled(this);
-        orderCancelled.publishAfterCommit();
     }
 }

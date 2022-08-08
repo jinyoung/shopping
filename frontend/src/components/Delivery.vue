@@ -10,16 +10,14 @@
         </template>
 
         <v-card-title v-if="value._links">
-            Shipping # {{value._links.self.href.split("/")[value._links.self.href.split("/").length - 1]}}
+            Delivery # {{value._links.self.href.split("/")[value._links.self.href.split("/").length - 1]}}
         </v-card-title >
         <v-card-title v-else>
-            Shipping
+            Delivery
         </v-card-title >
 
         <v-card-text>
             <String label="Address" v-model="value.address" :editMode="editMode"/>
-            <Number label="OrderId" v-model="value.orderId" :editMode="editMode"/>
-            <String label="Test" v-model="value.test" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -59,22 +57,6 @@
         </v-card-actions>
         <v-card-actions>
             <v-spacer></v-spacer>                        
-            <v-btn
-                    v-if="!editMode"
-                    color="deep-purple lighten-2"
-                    text
-                    @click="cancelDelivery"
-            >
-                CancelDelivery
-            </v-btn>
-            <v-btn
-                    v-if="!editMode"
-                    color="deep-purple lighten-2"
-                    text
-                    @click="trackDelivery"
-            >
-                TrackDelivery
-            </v-btn>
         </v-card-actions>
 
         <v-snackbar
@@ -97,7 +79,7 @@
 
 
     export default {
-        name: 'Shipping',
+        name: 'Delivery',
         components:{
         },
         props: {
@@ -149,7 +131,7 @@
 
                     if(!this.offline) {
                         if(this.isNew) {
-                            temp = await axios.post(axios.fixUrl('/shippings'), this.value)
+                            temp = await axios.post(axios.fixUrl('/deliveries'), this.value)
                         } else {
                             temp = await axios.put(axios.fixUrl(this.value._links.self.href), this.value)
                         }
@@ -174,7 +156,11 @@
 
                 } catch(e) {
                     this.snackbar.status = true
-                    this.snackbar.text = e
+                    if(e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
                 }
                 
             },
@@ -192,41 +178,15 @@
 
                 } catch(e) {
                     this.snackbar.status = true
-                    this.snackbar.text = e
+                    if(e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
                 }
             },
             change(){
                 this.$emit('input', this.value);
-            },
-            async cancelDelivery() {
-                try {
-                    if(!this.offline) {
-                        var temp = await axios.put(axios.fixUrl(this.value._links.canceldelivery.href))
-                        for(var k in temp.data) {
-                            this.value[k]=temp.data[k];
-                        }
-                    }
-
-                    this.editMode = false;
-                } catch(e) {
-                    this.snackbar.status = true
-                    this.snackbar.text = e
-                }
-            },
-            async trackDelivery() {
-                try {
-                    if(!this.offline) {
-                        var temp = await axios.put(axios.fixUrl(this.value._links.trackdelivery.href))
-                        for(var k in temp.data) {
-                            this.value[k]=temp.data[k];
-                        }
-                    }
-
-                    this.editMode = false;
-                } catch(e) {
-                    this.snackbar.status = true
-                    this.snackbar.text = e
-                }
             },
         },
     }
